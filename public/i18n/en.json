@@ -1,0 +1,44 @@
+{
+  "ticket": {
+    "take": "Take in charge",
+    "close": "Close ticket",
+    "resolution": "Resolution",
+    "status": "Status",
+    "priority": "Priority",
+    "description": "Description",
+    "noDescription": "No description available",
+    "id": "Ticket #{{id}}",
+    "noResolution":"Insert a resolution note"
+  },
+
+  "login": {
+    "title": "Sign in",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Login",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Invalid email address",
+    "passwordRequired": "Password is required",
+    "passwordMin": "Minimum 8 characters"
+  },
+
+  "search": {
+    "title": "Ticket search",
+    "status": "Status",
+    "priority": "Priority",
+    "sourceApp": "Application",
+    "keyword": "Keyword",
+    "placeholderKeyword": "Enter text...",
+    "noResults": "No tickets found"
+  },
+
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "reset": "Reset"
+  },
+
+  "breadcrumb": {
+    "tickets": "Tickets"
+  }
+}

@@ -1,0 +1,43 @@
+<div class="ticket-list">
+
+<div *ngFor="let ticket of tickets"
+     class="ticket-row"
+     [routerLink]="['/ticket', ticket.id]"
+     [queryParams]="route.snapshot.queryParams">
+
+    <!-- LEFT -->
+    <div class="left">
+      <div class="icon-wrapper">
+        <mat-icon>confirmation_number</mat-icon>
+      </div>
+
+      <div class="info">
+        <div class="title">{{ ticket.subject }}</div>
+        <div class="meta">ID #{{ ticket.id }}</div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right">
+
+      <span class="title">
+        {{ ticket.sourceApp }}
+      </span>
+      
+      <span class="priority" [ngClass]="ticket.priority.toLowerCase()">
+        {{ 'ticket.priorities.'+ticket.priority | translate }}
+      </span>
+
+      <span class="status" [ngClass]="ticket.status.toLowerCase()">
+        <mat-icon class="status-icon">
+          {{ getStatusIcon(ticket.status) }}
+        </mat-icon>
+        {{ 'ticket.statusValues.' + ticket.status | translate }}
+      </span>
+
+      <mat-icon class="arrow">chevron_right</mat-icon>
+    </div>
+
+  </div>
+
+</div>

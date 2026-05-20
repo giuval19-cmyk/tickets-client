@@ -1,0 +1,26 @@
+<div class="charts-wrapper">
+
+  <div class="chart-card">
+    <h2 class="chart-title">
+      {{ 'dashboard.situation' | translate }}
+    </h2>
+
+    <div class="chart-container">
+      <canvas baseChart [data]="sitChartData" [type]="sitChartType" [options]="barChartOptions">
+      </canvas>
+
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <h2 class="chart-title">
+      {{ 'dashboard.going' | translate }}
+    </h2>
+
+    <div class="chart-container">
+      <canvas baseChart [data]="trendChartData" [type]="trendChartType">
+      </canvas>
+    </div>
+  </div>
+
+</div>

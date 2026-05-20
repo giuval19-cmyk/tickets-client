@@ -1,0 +1,68 @@
+.title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* LIST */
+.ticket-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ROW (NON più card) */
+.ticket-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 14px 12px;
+  border-radius: 10px;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  border-bottom: 1px solid #eee; // 👈 pulizia visiva
+}
+
+/* hover moderno */
+.ticket-row:hover {
+  background: #f9fafc;
+}
+
+/* LEFT */
+.left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+
+/* info */
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.meta {
+  font-size: 12px;
+  color: #999;
+}
+
+.right {
+  display: grid;
+  grid-template-columns: 140px 100px 140px auto;
+  align-items: center;
+  gap: 8px;
+}
+
+
+/* arrow */
+.arrow {
+  color: #bbb;
+  font-size: 18px;
+}

@@ -1,1 +1,90 @@
-/* You can add global styles to this file, and also import other style files */
+.title {
+  font-weight: 500;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* STATUS COLORS */
+.open {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.in_progress {
+  background: #fff3e0;
+  color: #ef6c00;
+}
+
+.resolved {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.closed {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.high {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.medium {
+  background: #fff8e1;
+  color: #ef6c00;
+}
+
+.low {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+/* icon wrapper elegante */
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+
+  border-radius: 10px;
+  background: #e3f2fd;
+}
+
+.icon-wrapper mat-icon {
+  color: #1976d2;
+  font-size: 20px;
+}
+
+.priority,
+.status {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 70px;
+  text-align: center;
+
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+
+.status-icon {
+  font-size: 16px;
+}
+
+.mat-mdc-snack-bar-container.snackbar-success {
+  --mdc-snackbar-container-color: #2e7d32;
+  --mdc-snackbar-supporting-text-color: white;
+}
+
+.mat-mdc-snack-bar-container.snackbar-error {
+  --mdc-snackbar-container-color: #c62828;
+  --mdc-snackbar-supporting-text-color: white;
+}

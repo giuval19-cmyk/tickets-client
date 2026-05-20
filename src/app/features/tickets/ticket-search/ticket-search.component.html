@@ -1,0 +1,56 @@
+<div class="ticket-search-page">
+
+  <!-- FILTER BAR -->
+  <div class="filters">
+
+    <mat-form-field appearance="outline" class="keyword">
+      <mat-label>{{ 'search.keyword' | translate }}</mat-label>
+      <input matInput [(ngModel)]="keyword" (ngModelChange)="onFilterChange()" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>App</mat-label>
+      <mat-select [(ngModel)]="sourceApp" (ngModelChange)="onFilterChange()">
+        <mat-option value="">
+          {{ 'search.all' | translate }}
+        </mat-option>
+        <mat-option *ngFor="let a of apps" [value]="a">
+          {{ a }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'search.priority' | translate }}</mat-label>
+      <mat-select [(ngModel)]="priority" (ngModelChange)="onFilterChange()">
+        <mat-option value="">
+          {{ 'search.all' | translate }}
+        </mat-option>
+        <mat-option *ngFor="let p of priorities" [value]="p">
+          {{ 'ticket.priorities.' + p | translate }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'search.status' | translate }}</mat-label>
+
+      <mat-select [(ngModel)]="status" (ngModelChange)="onFilterChange()">
+        <mat-option value="">
+          {{ 'search.all' | translate }}
+        </mat-option>
+        <mat-option *ngFor="let s of statuses" [value]="s">
+          {{ 'ticket.statusValues.' + s | translate }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-stroked-button color="primary" (click)="resetFilters()">
+      Reset
+    </button>
+
+  </div>
+
+  <!-- RESULTS -->
+  <app-ticket-list [tickets]="results"></app-ticket-list>
+</div>

@@ -1,0 +1,73 @@
+<div *ngIf="ticket" class="detail-page">
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a [routerLink]="['/tickets']" queryParamsHandling="preserve">
+      Tickets
+    </a>
+
+    <span class="separator">/</span>
+    <span class="current">{{ ticket.subject }}</span>
+  </div>
+
+  <h2 class="title">
+    <span class="icon-wrapper">
+      <mat-icon>confirmation_number</mat-icon>
+    </span>
+    <span class="ticket-id">#{{ ticket.id }}</span>
+    {{ ticket.subject }}
+  </h2>
+
+  <!-- HEADER -->
+  <div class="header">
+
+    <div class="left">
+      <span class="status" [ngClass]="ticket.status.toLowerCase()">
+        {{ 'ticket.statusValues.'+ticket.status | translate }}
+      </span>
+
+      <span class="priority" [ngClass]="ticket.priority.toLowerCase()">
+        {{ 'ticket.priorities.'+ticket.priority | translate}}
+      </span>
+    </div>
+
+    <div class="center">
+      <!-- Prendi in carico -->
+      <button *ngIf="ticket.status === 'OPEN'" mat-raised-button color="primary" (click)="takeInCharge()">
+        <span>{{ 'ticket.take' | translate }}</span>
+      </button>
+      <!-- Chiudi -->
+      <button *ngIf="ticket.status === 'IN_PROGRESS'" mat-raised-button color="accent" (click)="closeTicket()">
+
+        <span>{{ 'ticket.close' | translate }}</span>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- DESCRIPTION -->
+  <div class="description">
+    {{ ticket.message || 'Nessuna descrizione disponibile' }}
+  </div>
+
+  <ul *ngIf="ticket.operatorNotes?.length">
+    <li *ngFor="let note of ticket.operatorNotes">
+      {{ note }}
+    </li>
+  </ul>
+  <!-- RESOLUTION -->
+  <div *ngIf="showResolution" class="resolution">
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'ticket.resolution' | translate }}</mat-label>
+
+      <textarea matInput [(ngModel)]="resolution" #resolutionCtrl="ngModel" name="resolution" required></textarea>
+      <mat-error *ngIf="resolutionCtrl.invalid">
+        {{ 'ticket.noResolution' | translate }}
+      </mat-error>
+
+    </mat-form-field>
+
+  </div>
+
+</div>

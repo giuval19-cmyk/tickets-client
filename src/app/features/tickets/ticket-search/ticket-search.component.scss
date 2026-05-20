@@ -1,0 +1,24 @@
+.ticket-search-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* FILTRI */
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  padding: 16px;
+  border-radius: 12px;
+
+  background: #ffffff;
+  border: 1px solid #eef1f5;
+}
+
+/* RISULTATI */
+.results {
+  display: flex;
+  flex-direction: column;
+}
