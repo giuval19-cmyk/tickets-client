@@ -1,0 +1,45 @@
+<div class="dashboard">
+  <!-- LOADING -->
+  <div *ngIf="loading" class="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+  <!-- ERROR -->
+  <div *ngIf="error" class="error">
+    {{'error.loading' | translate}}
+  </div>
+
+  <!-- EMPTY -->
+  <div *ngIf="!loading && !error && tableData.length === 0" class="empty">
+    {{'label.nodata' | translate}}
+  </div>
+
+  <div *ngIf="!loading && !error">
+    <table mat-table [dataSource]="tableData" class="mat-elevation-z2">
+
+      <!-- App -->
+      <ng-container matColumnDef="app">
+        <th mat-header-cell *matHeaderCellDef> App </th>
+        <td mat-cell *matCellDef="let row"> {{ row.app }} </td>
+      </ng-container>
+
+      <!-- Status dinamici -->
+      <ng-container *ngFor="let status of statuses" [matColumnDef]="status">
+
+        <th mat-header-cell *matHeaderCellDef [ngClass]="status.toLowerCase()">
+          {{ 'ticket.statusValues.' + status | translate }}
+        </th>
+
+        <td mat-cell *matCellDef="let row">
+          <a class="clickable" (click)="goToTickets(row.app, status)" tabindex="0">
+            {{ row[status] }}
+          </a>
+        </td>
+
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+  </div>
+</div>

@@ -56,5 +56,13 @@
   "dashboard": {
     "situation": "Situazione",
     "going": "Andamento"
+  },
+  "label": {
+    "notif-empty": "Nessuna notifica",
+    "notif": "Notifiche",
+    "nodata": "Nessun dato disponibile"
+  },
+  "error": {
+    "loading": "Errore durante il caricamento"
   }
 }

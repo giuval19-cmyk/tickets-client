@@ -16,13 +16,14 @@ export class StatsService {
 
   getChartData(): Observable<ChartSeriesDTO[]> {
     return this.http.get<ChartSeriesDTO[]>(
-      `${this.baseUrl}/analytics/dashboard`
+      `${this.baseUrl}/analytics/ticket-sits`
     );
   }
 
   getChartTrends(): Observable<ChartSeriesDTO[]> {
     return this.http.get<ChartSeriesDTO[]>(
-      `${this.baseUrl}/analytics/tickets-trend`
+      `${this.baseUrl}/analytics/ticket-trends`
     );
   }
+
 }

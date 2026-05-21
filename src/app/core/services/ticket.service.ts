@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../../environments/environment';
 import { Ticket } from '../models/ticket.model';
+import { TicketCountDTO } from '../models/ticket-count';
 
 
 @Injectable({
@@ -51,6 +52,12 @@ export class TicketService {
   getApps() {
     return this.http.get<string[]>(
       `${this.baseUrl}/support/apps`
+    );
+  }
+
+  getDashboard() {
+    return this.http.get<TicketCountDTO[]>(
+      `${this.baseUrl}/inq/dashboard`
     );
   }
 

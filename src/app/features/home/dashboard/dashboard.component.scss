@@ -1,0 +1,31 @@
+.clickable {
+  cursor: pointer;
+  text-decoration: none;
+  color: #1976d2; // Material blue
+  font-weight: 500;
+}
+
+.clickable:hover {
+  text-decoration: underline;
+}
+
+.error {
+  padding: 16px;
+  background: #fdecea;
+  color: #c62828;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.empty {
+  text-align: center;
+  color: #777;
+  padding: 16px;
+}

@@ -24,9 +24,43 @@
   <!-- RIGHT: Actions -->
   <div class="right">
     <!-- NOTIFICATIONS -->
-    <button mat-icon-button class="icon-btn">
+    <button mat-icon-button class="icon-btn" [matBadge]="notificationsCount" matBadgeColor="warn"
+      [matBadgeHidden]="notificationsCount === 0" [matMenuTriggerFor]="notificationMenu" (click)="openNotifications()">
       <mat-icon>notifications</mat-icon>
     </button>
+    <mat-menu #notificationMenu="matMenu" xPosition="before">
+
+      <div class="notif-menu">
+
+        <div class="notif-header">
+          {{ 'label.notif' | translate }}
+        </div>
+
+        <div class="notif-item" *ngFor="let n of notifications" [routerLink]="['/ticket', n.id]">
+
+          <div class="notif-icon">
+            <mat-icon>confirmation_number</mat-icon>
+          </div>
+
+          <div class="notif-content">
+            <div class="notif-subject">
+              {{ n.subject }}
+            </div>
+
+            <div class="notif-meta">
+              {{ n.userEmail }}
+            </div>
+          </div>
+
+        </div>
+
+        <div *ngIf="notifications.length === 0" class="empty">
+          {{ 'label.notif-empty' | translate }}
+        </div>
+
+      </div>
+
+    </mat-menu>
 
     <!-- USER CHIP -->
     <div class="user-chip" [matMenuTriggerFor]="userMenu">
