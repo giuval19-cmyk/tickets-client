@@ -56,8 +56,8 @@
     "tickets": "Tickets"
   },
   "dashboard": {
-    "situation": "Situazione",
-    "going": "Andamento"
+    "opening": "Andamento aperture",
+    "closing": "Andamento chiusure"
   },
   "label": {
     "notif-empty": "Nessuna notifica",

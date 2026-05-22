@@ -14,15 +14,15 @@ export class StatsService {
 
   constructor(private http: HttpClient) { }
 
-  getChartData(): Observable<ChartSeriesDTO[]> {
+  getOpenTrends(): Observable<ChartSeriesDTO[]> {
     return this.http.get<ChartSeriesDTO[]>(
-      `${this.baseUrl}/analytics/ticket-sits`
+      `${this.baseUrl}/analytics/open-trends`
     );
   }
 
-  getChartTrends(): Observable<ChartSeriesDTO[]> {
+  getCloseTrends(): Observable<ChartSeriesDTO[]> {
     return this.http.get<ChartSeriesDTO[]>(
-      `${this.baseUrl}/analytics/ticket-trends`
+      `${this.baseUrl}/analytics/close-trends`
     );
   }
 

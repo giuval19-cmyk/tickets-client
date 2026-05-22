@@ -2,23 +2,27 @@
   
   <div class="chart-card">
     <h2 class="chart-title">
-      {{ 'dashboard.situation' | translate }}
+      {{ 'dashboard.opening' | translate }}
     </h2>
 
     <div class="chart-container">
-      <canvas baseChart [data]="sitChartData" [type]="sitChartType" [options]="barChartOptions">
+      <canvas baseChart [data]="openChartData" [type]="openChartType" [options]="barChartOptions">
       </canvas>
 
     </div>
   </div>
 
-  <div class="chart-card">
+  <div class="chart-card" *ngIf="closeChartData.datasets.length">
     <h2 class="chart-title">
-      {{ 'dashboard.going' | translate }}
+      {{ 'dashboard.closing' | translate }}
     </h2>
 
     <div class="chart-container">
-      <canvas baseChart [data]="trendChartData" [type]="trendChartType">
+      <canvas 
+        baseChart [data]="closeChartData" 
+        [type]="closeChartType"
+        [options]="lineChartOptions"
+        >
       </canvas>
     </div>
   </div>

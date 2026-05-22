@@ -8,6 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ChartOptions } from 'chart.js';
 import { forkJoin } from 'rxjs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { TicketService } from '../../../core/services/ticket.service';
 
 @Component({
   selector: 'app-charts',
@@ -23,36 +24,18 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 export class ChartsComponent implements OnInit {
   loading = true;
   error = false;
+  private appColorMap: Record<string, { background: string; border: string }> = {};
 
-  sitChartType: 'bar' = 'bar';
-  sitChartData: ChartData<'bar'> = {
+  openChartType: 'bar' = 'bar';
+  openChartData: ChartData<'bar'> = {
     labels: [],
     datasets: []
   };
 
-  trendChartType: 'line' = 'line';
-  trendChartData: ChartData<'line'> = {
+  closeChartType: 'line' = 'line';
+  closeChartData: ChartData<'line'> = {
     labels: [],
     datasets: []
-  };
-
-  private priorityColors: Record<string, { background: string; border: string }> = {
-    URGENT: {
-      background: '#ffebee',
-      border: '#830404'
-    },
-    HIGH: {
-      background: '#ffebee',
-      border: '#993f3f'
-    },
-    MEDIUM: {
-      background: '#fff8e1',
-      border: '#ef6c00'
-    },
-    LOW: {
-      background: '#e8f5e9',
-      border: '#2e7d32'
-    }
   };
 
   barChartOptions: ChartOptions<'bar'> = {
@@ -72,17 +55,35 @@ export class ChartsComponent implements OnInit {
     }
   };
 
-  constructor(private statsService: StatsService) { }
+  lineChartOptions: ChartOptions<'line'> = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top'
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  };
+
+  constructor(private statsService: StatsService, private ticketService: TicketService) { }
 
   ngOnInit() {
 
     forkJoin({
-      sitChart: this.statsService.getChartData(),
-      trendChart: this.statsService.getChartTrends()
+      apps: this.ticketService.getApps(),
+      openChart: this.statsService.getOpenTrends(),
+      closeChart: this.statsService.getCloseTrends()
     }).subscribe({
-      next: ({ sitChart, trendChart }) => {
-        this.sitChartData = this.buildBarChart(sitChart);
-        this.trendChartData = this.buildLineChart(trendChart);
+      next: ({ apps, openChart, closeChart }) => {
+
+        this.generateAppColors(apps);
+
+        this.openChartData = this.buildBarChart(openChart, this.appColorMap);
+        this.closeChartData = this.buildLineChart(closeChart, this.appColorMap);
 
         this.loading = false;
       },
@@ -93,15 +94,27 @@ export class ChartsComponent implements OnInit {
     });
   }
 
-  private buildBaseChart(data: ChartSeriesDTO[], serieColors?: Record<string, { background: string; border: string }>) {
+  private generateAppColors(apps: string[]) {
+
+    if (!apps?.length) return;
+
+    const palette = this.generateColors(apps.length);
+
+    apps.forEach((app, index) => {
+      this.appColorMap[app] = palette[index];
+    });
+  }
+
+  private buildBaseChart(
+    data: ChartSeriesDTO[],
+    colorMap: Record<string, { background: string; border: string }>
+  ) {
     //mette in un array tutti i nomi della serie
     const labels = Array.from(
       new Set(
         data.flatMap(series => series.series.map(p => p.name))
       )
     );
-
-    const colorPalette = this.generateColors(data.length);
 
     const datasets = data.map((series, index) => {
 
@@ -110,13 +123,10 @@ export class ChartsComponent implements OnInit {
         return point ? point.value : 0;
       });
 
-
-      const colors = serieColors
-        ? (serieColors[series.name] ?? {
-          background: '#e0e0e0',
-          border: '#9e9e9e'
-        })
-        : colorPalette[index];
+      const colors = colorMap[series.name] ?? {
+        background: '#eceff1',
+        border: '#90a4ae'
+      };
 
 
       return {
@@ -129,8 +139,11 @@ export class ChartsComponent implements OnInit {
     return { labels, datasets };
   }
 
-  private buildBarChart(data: ChartSeriesDTO[]): ChartData<'bar'> {
-    const base = this.buildBaseChart(data, this.priorityColors);
+  private buildBarChart(
+    data: ChartSeriesDTO[],
+    colorMap: Record<string, { background: string; border: string }>
+  ): ChartData<'bar'> {
+    const base = this.buildBaseChart(data, colorMap);
 
     return {
       labels: base.labels,
@@ -144,8 +157,11 @@ export class ChartsComponent implements OnInit {
     };
   }
 
-  private buildLineChart(data: ChartSeriesDTO[]): ChartData<'line'> {
-    const base = this.buildBaseChart(data);
+  private buildLineChart(
+    data: ChartSeriesDTO[],
+    colorMap: Record<string, { background: string; border: string }>
+  ): ChartData<'line'> {
+    const base = this.buildBaseChart(data, colorMap);
 
     return {
       labels: base.labels,
