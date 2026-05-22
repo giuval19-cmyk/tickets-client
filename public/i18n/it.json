@@ -2,6 +2,8 @@
   "ticket": {
     "take": "Prendi in carico",
     "close": "Chiudi ticket",
+    "changePriority": "Cambia priorità",
+    "priorityChanged": "Priorità cambiata",
     "resolution": "Risoluzione",
     "status": "Stato",
     "priority": "Priorità",

@@ -26,9 +26,28 @@
         {{ 'ticket.statusValues.'+ticket.status | translate }}
       </span>
 
-      <span class="priority" [ngClass]="ticket.priority.toLowerCase()">
-        {{ 'ticket.priorities.'+ticket.priority | translate}}
+      <!-- Priority -->
+      <span class="priority clickable" [ngClass]="ticket.priority.toLowerCase()" *ngIf="!isAdmin">
+        {{ 'ticket.priorities.' + ticket.priority | translate }}
       </span>
+
+      <mat-chip class="priority clickable" [ngClass]="ticket.priority.toLowerCase()" *ngIf="isAdmin"
+        matTooltip="{{ 'ticket.changePriority' | translate }}" [matMenuTriggerFor]="priorityMenu">
+        {{ 'ticket.priorities.' + ticket.priority | translate }}
+      </mat-chip>
+
+      <mat-menu #priorityMenu="matMenu">
+        <ng-container *ngFor="let p of priorities">
+
+          <button mat-menu-item *ngIf="p !== ticket.priority" (click)="updatePriority(p)">
+            <span [ngClass]="p.toLowerCase()">
+              {{ 'ticket.priorities.' + p | translate }}
+            </span>
+          </button>
+
+        </ng-container>
+      </mat-menu>
+
     </div>
 
     <div class="center">
@@ -36,6 +55,7 @@
       <button *ngIf="ticket.status === 'OPEN'" mat-raised-button color="primary" (click)="takeInCharge()">
         <span>{{ 'ticket.take' | translate }}</span>
       </button>
+
       <!-- Chiudi -->
       <button *ngIf="ticket.status === 'IN_PROGRESS'" mat-raised-button color="accent" (click)="closeTicket()">
 

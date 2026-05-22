@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../../environments/environment';
-import { Ticket } from '../models/ticket.model';
+import { Ticket, TicketPriority } from '../models/ticket.model';
 import { TicketCountDTO } from '../models/ticket-count';
 
 
@@ -44,7 +44,7 @@ export class TicketService {
   }
 
   getPriorities() {
-    return this.http.get<string[]>(
+    return this.http.get<TicketPriority[]>(
       `${this.baseUrl}/support/ticket-priorities`
     );
   }
@@ -59,6 +59,12 @@ export class TicketService {
     return this.http.get<TicketCountDTO[]>(
       `${this.baseUrl}/inq/dashboard`
     );
+  }
+
+  changePriority(id: string, priority: TicketPriority){
+    return this.http.patch<Ticket>(`${this.baseUrl}/support/${id}/priority`, {
+      priority
+    });
   }
 
 }

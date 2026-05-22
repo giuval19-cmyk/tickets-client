@@ -19,17 +19,22 @@ body {
 
 .resolved {
   background: #e8f5e9;
-  color: #2e7d32;
+  color: #5ed364;
 }
 
 .closed {
   background: #e8f5e9;
-  color: #2e7d32;
+  color: #0b6b10;
+}
+
+.urgent {
+  background: #ffebee;
+  color: #6c0202;
 }
 
 .high {
   background: #ffebee;
-  color: #c62828;
+  color: #e74141;
 }
 
 .medium {

@@ -132,3 +132,25 @@ button[mat-stroked-button] {
 .current {
   color: #666;
 }
+
+.priority {
+  transition: all 0.2s ease;
+}
+
+.priority.clickable:hover {
+  filter: brightness(0.9);
+  cursor: pointer;
+}
+
+.priority-menu-content button {
+  display: flex;
+  align-items: center;
+
+  justify-content: flex-end;
+
+  gap: 8px;
+
+  padding: 10px 12px;
+  text-transform: none;
+  font-size: 14px;
+}

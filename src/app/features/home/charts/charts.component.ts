@@ -37,9 +37,13 @@ export class ChartsComponent implements OnInit {
   };
 
   private priorityColors: Record<string, { background: string; border: string }> = {
+    URGENT: {
+      background: '#ffebee',
+      border: '#830404'
+    },
     HIGH: {
       background: '#ffebee',
-      border: '#c62828'
+      border: '#993f3f'
     },
     MEDIUM: {
       background: '#fff8e1',
@@ -89,7 +93,7 @@ export class ChartsComponent implements OnInit {
     });
   }
 
-  private buildBaseChart(data: ChartSeriesDTO[]) {
+  private buildBaseChart(data: ChartSeriesDTO[], serieColors?: Record<string, { background: string; border: string }>) {
     //mette in un array tutti i nomi della serie
     const labels = Array.from(
       new Set(
@@ -97,17 +101,23 @@ export class ChartsComponent implements OnInit {
       )
     );
 
-    const datasets = data.map(series => {
+    const colorPalette = this.generateColors(data.length);
+
+    const datasets = data.map((series, index) => {
 
       const values = labels.map(label => {
         const point = series.series.find(p => p.name === label);
         return point ? point.value : 0;
       });
 
-      const colors = this.priorityColors[series.name] || {
-        background: '#e0e0e0',
-        border: '#9e9e9e'
-      };
+
+      const colors = serieColors
+        ? (serieColors[series.name] ?? {
+          background: '#e0e0e0',
+          border: '#9e9e9e'
+        })
+        : colorPalette[index];
+
 
       return {
         label: series.name,
@@ -120,7 +130,7 @@ export class ChartsComponent implements OnInit {
   }
 
   private buildBarChart(data: ChartSeriesDTO[]): ChartData<'bar'> {
-    const base = this.buildBaseChart(data);
+    const base = this.buildBaseChart(data, this.priorityColors);
 
     return {
       labels: base.labels,
@@ -150,4 +160,20 @@ export class ChartsComponent implements OnInit {
       }))
     };
   }
+
+  private generateColors(count: number) {
+    const colors = [];
+
+    for (let i = 0; i < count; i++) {
+      const hue = (i * 360) / count;
+
+      colors.push({
+        border: `hsl(${hue}, 70%, 40%)`,
+        background: `hsla(${hue}, 70%, 50%, 0.3)`
+      });
+    }
+
+    return colors;
+  }
+
 }
