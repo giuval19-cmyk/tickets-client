@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { environment } from '../../../environments/environment';
-import { Ticket, TicketPriority } from '../models/ticket.model';
+import { SuggestDTO, Ticket, TicketPriority } from '../models/ticket.model';
 import { TicketCountDTO } from '../models/ticket-count';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -16,7 +17,6 @@ export class TicketService {
   constructor(private http: HttpClient) { }
 
   getTickets(params?: any) {
-    console.log('Ricerca per params')
     return this.http.get<Ticket[]>(`${this.baseUrl}/inq/tickets`, { params });
   }
 
@@ -31,9 +31,9 @@ export class TicketService {
     return this.http.patch<Ticket>(`${this.baseUrl}/support/${id}/take`, {});
   }
 
-  closeTicket(id: string, resolution: string) {
+  closeTicket(id: string, notes: string[]) {
     return this.http.patch<Ticket>(`${this.baseUrl}/support/${id}/close`, {
-      resolution
+      notes
     });
   }
 
@@ -61,10 +61,17 @@ export class TicketService {
     );
   }
 
-  changePriority(id: string, priority: TicketPriority){
+  changePriority(id: string, priority: TicketPriority) {
     return this.http.patch<Ticket>(`${this.baseUrl}/support/${id}/priority`, {
       priority
     });
+  }
+
+  getTicketSuggestion(ticketId: string): Observable<SuggestDTO> {
+  
+    const currentLang = localStorage.getItem('lang') || 'it';
+    const params = new HttpParams().set('lang', currentLang);
+    return this.http.get<SuggestDTO>(`${this.baseUrl}/inq/${ticketId}/suggest`, { params });
   }
 
 }

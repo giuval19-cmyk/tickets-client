@@ -1,0 +1,175 @@
+/* === CHAT BOT WIDGET (STILE ALLINEATO AL BRAND) === */
+.suggest-widget {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 360px;
+  max-height: 520px;
+  background: #ffffff;
+  
+  // Allineato ai tuoi border sottili dell'app (#eee / #ddd)
+  border: 1px solid #eef1f5; 
+  border-radius: 12px;
+  
+  // Shadow più morbida, in linea con l'estetica 'Inter' dell'app
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease; // Uniformato alle tue transizioni globali
+  overflow: hidden;
+
+  &.collapsed {
+    max-height: 52px;
+    width: 240px;
+  }
+}
+
+/* === HEADER (Stile .notif-header / .menu-header dell'app) === */
+.widget-header {
+  background: #ffffff; // Sfondo bianco pulito, non più blu elettrico, per non cozzare con la mat-toolbar
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08); // Copiato dal tuo .divider
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  height: 52px;
+  box-sizing: border-box;
+
+  .header-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500; // Allineato al tuo .title globale
+    font-size: 14px;
+    color: #333333;
+
+    // Riutilizziamo la struttura del tuo .notif-icon / .icon-wrapper
+    .bot-icon-wrapper {
+      background: #eef3ff;
+      border-radius: 50%;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      mat-icon {
+        font-size: 18px;
+        color: #1976d2; // Il tuo blu primario
+      }
+    }
+  }
+
+  // Freccetta coerente con la tua classe .chevron
+  .chevron {
+    font-size: 20px;
+    opacity: 0.6;
+    transition: transform 0.2s ease;
+  }
+}
+
+/* === CORPO (Stile .notif-menu / .menu-content dell'app) === */
+.widget-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  background: #ffffff;
+}
+
+/* Scatola di riepilogo (Stile coerente con .description / .menu-header) */
+.summary-box {
+  background: rgba(0, 0, 0, 0.03); // Preso dal tuo .menu-header
+  padding: 12px;
+  border-radius: 8px;
+  
+  strong {
+    display: block;
+    font-weight: 500;
+    font-size: 13px;
+    color: #111;
+    margin-bottom: 4px;
+  }
+  p {
+    margin: 0;
+    font-size: 13px;
+    color: #555;
+    line-height: 1.4;
+  }
+}
+
+/* Badge Livello Confidenza (Usa ESATTAMENTE le tue classi globali .low, .medium, .high!) */
+.confidence-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #666;
+
+  .confidence-label {
+    font-weight: 500;
+  }
+
+  // Qui estendiamo le proprietà del tuo foglio di stile globale .priority/.status
+  .confidence-badge {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+}
+
+/* Step di risoluzione */
+.steps-section {
+  strong {
+    display: block;
+    font-weight: 500;
+    font-size: 13px;
+    color: #111;
+    margin-bottom: 6px;
+  }
+  ol {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 13px;
+    color: #555;
+    
+    li {
+      margin-bottom: 6px;
+      line-height: 1.4;
+      
+      &::marker {
+        color: #1976d2; // Numeri dell'elenco colorati del blu principale
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+/* Azioni in basso (Coerenti con .resolution-actions del dettaglio) */
+.widget-actions {
+  margin-top: 6px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  padding-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+
+  button {
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    height: 38px;
+    border-radius: 8px;
+  }
+}

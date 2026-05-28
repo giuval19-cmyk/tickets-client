@@ -43,7 +43,6 @@ export class LoginComponent {
       .subscribe({
         next: () => {
           console.log('Token salvato:', this.auth.getToken());
-          console.log('Decoded:', this.auth.decodeToken());
 
           this.router.navigate(['/']);
         },

@@ -38,7 +38,7 @@ export class NotificationService {
 
       console.warn('Connessione SSE persa, riconnessione...');
 
-      this.eventSource?.close();
+      this.disconnect();
 
       // retry dopo 60 secondi
       setTimeout(() => {

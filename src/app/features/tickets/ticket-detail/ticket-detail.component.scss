@@ -86,6 +86,18 @@
   justify-content: flex-end;
 }
 
+/* Nel tuo file ticket-detail.component.scss */
+
+.resolution textarea {
+  /* Permette all'utente di ridimensionare la textarea solo in verticale, 
+     evitando di rompere la larghezza della grid (full-width) */
+  resize: vertical; 
+  
+  /* Opzionale: puoi impostare anche un'altezza minima o massima in pixel */
+  min-height: 120px;
+  max-height: 400px;
+}
+
 /* =========================
    BOTTONI
    ========================= */

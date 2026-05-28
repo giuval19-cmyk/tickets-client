@@ -21,3 +21,9 @@ export interface Ticket {
   priority: TicketPriority;
   operatorNotes : string[];
 }
+
+export interface SuggestDTO {
+  readonly summary: string;
+  readonly solutionSteps: string[];
+  readonly confidenceLevel: TicketPriority;
+}

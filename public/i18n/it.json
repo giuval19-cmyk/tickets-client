@@ -66,5 +66,12 @@
   },
   "error": {
     "loading": "Errore durante il caricamento"
+  },
+  "suggestion": {
+    "title": "Suggerimento AI",
+    "apply": "Applica",
+    "noSuggestion": "Nessun suggerimento disponibile",
+    "actionable": "Azioni consigliate",
+    "confidence": "Gravità stimata"
   }
 }

@@ -36,7 +36,7 @@
           {{ 'label.notif' | translate }}
         </div>
 
-        <div class="notif-item" *ngFor="let n of notifications" [routerLink]="['/ticket', n.id]">
+        <div class="notif-item" *ngFor="let n of notifications" (click)="goToTicket(n.id)">
 
           <div class="notif-icon">
             <mat-icon>confirmation_number</mat-icon>
@@ -66,7 +66,7 @@
     <div class="user-chip" [matMenuTriggerFor]="userMenu">
       <mat-icon class="avatar" *ngIf="!isAdmin">account_circle</mat-icon>
       <mat-icon *ngIf="isAdmin">badge</mat-icon>
-      <span class="username">Giuseppe</span>
+      <span class="username">{{ currentUserName }}</span>
       <mat-icon class="chevron">expand_more</mat-icon>
     </div>
 

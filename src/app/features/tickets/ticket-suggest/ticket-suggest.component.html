@@ -1,0 +1,42 @@
+<div class="suggest-widget" [class.collapsed]="!isOpen">
+  
+  <div class="widget-header" (click)="toggleChat()">
+    <div class="header-title">
+      <div class="bot-icon-wrapper">
+        <mat-icon>psychology</mat-icon>
+      </div>
+      <span>{{ 'suggestion.title' | translate }}</span>
+    </div>
+    <mat-icon class="chevron">
+      {{ isOpen ? 'expand_more' : 'expand_less' }}
+    </mat-icon>
+  </div>
+
+  <div class="widget-body" *ngIf="isOpen">
+    <div class="summary-box">
+      <p>{{ suggestion.summary }}</p>
+    </div>
+
+    <div class="confidence-section">
+      <span class="confidence-label">{{ 'suggestion.confidence' | translate }}:</span>
+      <span class="confidence-badge" [ngClass]="suggestion.confidenceLevel.toLowerCase()">
+        {{ 'ticket.priorities.' + suggestion.confidenceLevel | translate }}
+      </span>
+    </div>
+
+    <div class="steps-section" *ngIf="suggestion.solutionSteps?.length">
+      <strong>{{ 'suggestion.actionable' | translate }}</strong>
+      <ol>
+        <li *ngFor="let step of suggestion.solutionSteps">{{ step }}</li>
+      </ol>
+    </div>
+
+    <div class="widget-actions">
+      <button mat-flat-button color="primary" (click)="applySuggestion()">
+        <mat-icon>assignment_turned_in</mat-icon>
+        {{ 'suggestion.apply' | translate }}
+      </button>
+    </div>
+  </div>
+
+</div>

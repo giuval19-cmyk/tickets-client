@@ -60,6 +60,13 @@ export class AuthService {
     return roles.map((r: string) => r.replace('ROLE_', ''));
   }
 
+  getUserName(): string {
+  const decoded = this.decodeToken();
+  if (!decoded) return 'User';
+
+  return decoded.name || decoded.sub || 'User';
+}
+
 
   hasRole(role: string): boolean {
     return this.getRoles().includes(role);

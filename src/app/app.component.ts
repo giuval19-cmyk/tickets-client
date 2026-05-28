@@ -47,16 +47,23 @@ export class AppComponent implements OnDestroy {
   ngOnInit() {
     this.isAdmin = this.auth.hasRole('ADMIN');
 
-    this.notifyService.connect((event) => {
+    const handleNotification = (event: any) => {
       this.notificationsCount = this.notificationsCount + 1;
+      this.notifications.unshift(event);
 
-      this.notifications.unshift(event); //aggiungi in cima
-
-      //mantieni max 20 notifiche
       if (this.notifications.length > 20) {
         this.notifications.pop();
       }
+    };
 
+    if (this.isLoggedIn) {
+      this.notifyService.connect(handleNotification);
+    }
+
+    this.router.events.subscribe(() => {
+      if (this.isLoggedIn) {
+        this.notifyService.connect(handleNotification);
+      }
     });
   }
 
@@ -85,6 +92,16 @@ export class AppComponent implements OnDestroy {
 
   ngOnDestroy() {
     this.notifyService.disconnect();
+  }
+
+  goToTicket(ticketId: string | number) {
+    if (!ticketId) return;
+
+    this.router.navigate(['/ticket', ticketId]);
+  }
+
+  get currentUserName(): string {
+    return this.auth.getUserName();
   }
 
 }

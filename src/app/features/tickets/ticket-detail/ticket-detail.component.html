@@ -67,7 +67,7 @@
 
   <!-- DESCRIPTION -->
   <div class="description">
-    {{ ticket.message || 'Nessuna descrizione disponibile' }}
+    {{ ticket.message }}
   </div>
 
   <ul *ngIf="ticket.operatorNotes?.length">
@@ -91,3 +91,8 @@
   </div>
 
 </div>
+<app-ticket-suggest 
+  *ngIf="suggestion" 
+  [suggestion]="suggestion"
+  (useSteps)="handleApplySuggestion($event)">
+</app-ticket-suggest>

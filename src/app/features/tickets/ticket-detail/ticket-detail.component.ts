@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ActivatedRoute } from '@angular/router';
@@ -21,7 +21,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ViewChild } from '@angular/core';
 import { NgModel } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
-
+import { TicketSuggestComponent } from '../ticket-suggest/ticket-suggest.component';
+import { SuggestDTO } from '../../../core/models/ticket.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-ticket-detail',
@@ -35,12 +37,13 @@ import { AuthService } from '../../../core/services/auth.service';
     MatInputModule,
     MatIconModule,
     FormsModule,
-    TranslateModule
+    TranslateModule,
+    TicketSuggestComponent
   ],
   templateUrl: './ticket-detail.component.html',
   styleUrls: ['./ticket-detail.component.scss']
 })
-export class TicketDetailComponent {
+export class TicketDetailComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
@@ -55,6 +58,8 @@ export class TicketDetailComponent {
   resolution = '';
   isAdmin = false;
   priorities: TicketPriority[] = [];
+  suggestion: SuggestDTO | null = null;
+  private routeSub?: Subscription;
 
   @ViewChild('resolutionCtrl') resolutionCtrl!: NgModel;
 
@@ -63,26 +68,37 @@ export class TicketDetailComponent {
 
     this.isAdmin = this.auth.hasRole('ADMIN');
 
+    this.routeSub = this.route.paramMap.subscribe(paramMap => {
+      const ticketId = paramMap.get('id');
+
+      if (ticketId) {
+        this.loadTicketDetails(ticketId);
+      }
+    });
+
+  }
+
+  ngOnDestroy() {
+    // Buona norma: cancella la sottoscrizione per evitare Memory Leak
+    this.routeSub?.unsubscribe();
+  }
+
+  loadTicketDetails(id: string) {
+
     this.ticketService.getTicketById(id!)
       .subscribe({
         next: res => {
           this.ticket = res;
           this.showResolution = res.status === 'IN_PROGRESS'
+
+          if (res.status === 'IN_PROGRESS') {
+            this.loadSuggestion(res.id);
+          }
         },
         error: err => {
           console.error('ERROR TICKETS:', err);
 
           this.showToast('Si è verificato un errore');
-        }
-      });
-
-    this.ticketService.getPriorities()
-      .subscribe({
-        next: res => {
-          this.priorities = res;
-        },
-        error: err => {
-          console.error('ERR PRIORITIES', err)
         }
       });
 
@@ -97,6 +113,7 @@ export class TicketDetailComponent {
         next: (updatedTicket) => {
           this.ticket = updatedTicket;
           this.showResolution = true;
+          this.loadSuggestion(updatedTicket.id);
         },
         error: err => {
           console.error('ERROR takeInCharge:', err);
@@ -119,11 +136,21 @@ export class TicketDetailComponent {
       return;
     }
 
-    this.ticketService.closeTicket(this.ticket!.id, this.resolution)
+    //PARSING DELLA TEXTAREA IN LISTA DI STRINGHE
+    const stepsArray: string[] = this.resolution
+      .split('\n')                        // Spezza la stringa ad ogni "andata a capo"
+      .map(line => line.trim())           // Rimuove spazi vuoti all'inizio e alla fine di ogni riga
+      .map(line => line.replace(/^-\s*/, '')) // Rimuove il trattino iniziale "- " (se presente) usando una Regex
+      .filter(line => line.length > 0);   // Scarta le righe vuote (es. doppi invii accidentali)
+
+    console.log(stepsArray);
+    this.ticketService.closeTicket(this.ticket!.id, stepsArray)
       .subscribe({
         next: (updatedTicket) => {
           this.ticket = updatedTicket;
           this.showResolution = false;
+
+          this.suggestion = null;
         },
         error: err => {
           console.error('ERROR takeInCharge:', err);
@@ -172,6 +199,26 @@ export class TicketDetailComponent {
         ? ['snackbar-success']
         : ['snackbar-error']
     });
+  }
+
+  loadSuggestion(ticketId: string) {
+    this.ticketService.getTicketSuggestion(ticketId)
+      .subscribe({
+        next: res => this.suggestion = res,
+        error: err => {
+          const message =
+            err.error?.message ||
+            err.message ||
+            'Error';
+
+          this.showToast(message, 'error');
+        }
+      });
+  }
+
+  handleApplySuggestion(steps: string[]) {
+    const formattedSteps = steps.map(step => `- ${step}`).join('\n');
+    this.resolution = `${formattedSteps}`;
   }
 
 }
