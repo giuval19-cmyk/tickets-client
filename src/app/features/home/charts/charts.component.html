@@ -1,30 +1,53 @@
-<div class="charts-wrapper" *ngIf="!loading && !error">
+<div class="filter-wrapper" *ngIf="!error">
+  <div class="filter-card">
+    <label for="daysSelect" class="filter-label">{{ 'dashboard.filter' | translate }}:</label>
+    <select 
+      id="daysSelect" 
+      class="filter-select" 
+      [(ngModel)]="selectedDays" 
+      (change)="onDaysChange()"
+      [disabled]="loading">
+      <option [value]="7">7</option>
+      <option [value]="30">30</option>
+      <option [value]="90">90</option>
+      <option [value]="180">180</option>
+    </select>
+  </div>
+</div>
+
+<div class="loading-container" *ngIf="loading && !openChartData.labels?.length">
+  <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
+  <p>{{ 'dashboard.loading' | translate }}</p>
+</div>
+
+<div class="charts-wrapper" *ngIf="!error" [class.loading-overlay]="loading && openChartData.labels?.length">
   
-  <div class="chart-card">
+  <div class="chart-card" *ngIf="openChartData.datasets?.length">
     <h2 class="chart-title">
       {{ 'dashboard.opening' | translate }}
     </h2>
-
     <div class="chart-container">
       <canvas baseChart [data]="openChartData" [type]="openChartType" [options]="barChartOptions">
       </canvas>
-
     </div>
   </div>
 
-  <div class="chart-card" *ngIf="closeChartData.datasets.length">
+  <div class="chart-card" *ngIf="closeChartData.datasets?.length">
     <h2 class="chart-title">
       {{ 'dashboard.closing' | translate }}
     </h2>
-
     <div class="chart-container">
       <canvas 
-        baseChart [data]="closeChartData" 
+        baseChart 
+        [data]="closeChartData" 
         [type]="closeChartType"
-        [options]="lineChartOptions"
-        >
+        [options]="lineChartOptions">
       </canvas>
     </div>
   </div>
 
+</div>
+
+<div class="error-container" *ngIf="error">
+  <p>{{ 'dashboard.error' | translate }}</p>
 </div>

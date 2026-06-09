@@ -9,14 +9,17 @@ import { ChartOptions } from 'chart.js';
 import { forkJoin } from 'rxjs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TicketService } from '../../../core/services/ticket.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-charts',
+  standalone: true,
   imports: [
     CommonModule,
     NgChartsModule,
     TranslateModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    FormsModule
   ],
   templateUrl: './charts.component.html',
   styleUrl: './charts.component.scss'
@@ -69,23 +72,17 @@ export class ChartsComponent implements OnInit {
     }
   };
 
+  selectedDays: number = 30;
+
   constructor(private statsService: StatsService, private ticketService: TicketService) { }
 
   ngOnInit() {
 
-    forkJoin({
-      apps: this.ticketService.getApps(),
-      openChart: this.statsService.getOpenTrends(),
-      closeChart: this.statsService.getCloseTrends()
-    }).subscribe({
-      next: ({ apps, openChart, closeChart }) => {
-
+    this.ticketService.getApps().subscribe({
+      next: (apps) => {
         this.generateAppColors(apps);
 
-        this.openChartData = this.buildBarChart(openChart, this.appColorMap);
-        this.closeChartData = this.buildLineChart(closeChart, this.appColorMap);
-
-        this.loading = false;
+        this.loadChartsData(this.selectedDays);
       },
       error: () => {
         this.loading = false;
@@ -103,6 +100,34 @@ export class ChartsComponent implements OnInit {
     apps.forEach((app, index) => {
       this.appColorMap[app] = palette[index];
     });
+  }
+
+  loadChartsData(days: number) {
+    this.loading = true;
+    this.error = false;
+
+
+    forkJoin({
+      openChart: this.statsService.getOpenTrends(days),
+      closeChart: this.statsService.getCloseTrends(days)
+    }).subscribe({
+      next: ({ openChart, closeChart }) => {
+        this.openChartData = this.buildBarChart(openChart, this.appColorMap);
+        this.closeChartData = this.buildLineChart(closeChart, this.appColorMap);
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+        this.error = true;
+      }
+    });
+  }
+
+  /**
+   * Chiamato dall'interfaccia HTML quando l'utente cambia la selezione dei giorni
+   */
+  onDaysChange() {
+    this.loadChartsData(this.selectedDays);
   }
 
   private buildBaseChart(

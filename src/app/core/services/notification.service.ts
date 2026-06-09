@@ -22,7 +22,8 @@ export class NotificationService {
     this.eventSource = new EventSourcePolyfill(`${this.baseUrl}/notifications/stream`, {
       headers: {
         Authorization: `Bearer ${this.auth.getToken()}`
-      }
+      },
+      heartbeatTimeout: 45000
     });
 
     this.eventSource.onmessage = (event) => {

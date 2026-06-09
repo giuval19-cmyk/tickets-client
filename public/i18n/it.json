@@ -57,7 +57,10 @@
   },
   "dashboard": {
     "opening": "Andamento aperture",
-    "closing": "Andamento chiusure"
+    "closing": "Andamento chiusure",
+    "loading": "Caricamento grafici...",
+    "filter" : "Mostra dati degli ultimi giorni",
+    "error": "Errore durante il caricamento dei dati"
   },
   "label": {
     "notif-empty": "Nessuna notifica",

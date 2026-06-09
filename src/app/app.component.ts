@@ -31,7 +31,6 @@ export class AppComponent implements OnDestroy {
   notificationsCount = 0;
   notifications: any[] = [];
 
-  isAdmin = false;
 
   constructor(
     private auth: AuthService,
@@ -45,8 +44,6 @@ export class AppComponent implements OnDestroy {
   }
 
   ngOnInit() {
-    this.isAdmin = this.auth.hasRole('ADMIN');
-
     const handleNotification = (event: any) => {
       this.notificationsCount = this.notificationsCount + 1;
       this.notifications.unshift(event);
@@ -65,6 +62,10 @@ export class AppComponent implements OnDestroy {
         this.notifyService.connect(handleNotification);
       }
     });
+  }
+
+  get isAdmin() {
+    return this.auth.hasRole('ADMIN');
   }
 
   get isLoggedIn() {

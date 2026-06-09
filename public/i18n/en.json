@@ -1,44 +1,80 @@
 {
   "ticket": {
-    "take": "Take in charge",
+    "take": "Assign to me",
     "close": "Close ticket",
+    "changePriority": "Change priority",
+    "priorityChanged": "Priority changed",
     "resolution": "Resolution",
     "status": "Status",
     "priority": "Priority",
     "description": "Description",
     "noDescription": "No description available",
     "id": "Ticket #{{id}}",
-    "noResolution":"Insert a resolution note"
+    "noResolution": "Please enter a resolution note",
+    "statusValues": {
+      "OPEN": "Open",
+      "IN_PROGRESS": "In Progress",
+      "PENDING_CUSTOMER": "Pending Customer",
+      "RESOLVED": "Resolved",
+      "CLOSED": "Closed"
+    },
+    "priorities": {
+      "LOW": "Low",
+      "MEDIUM": "Medium",
+      "HIGH": "High",
+      "URGENT": "Urgent"
+    }
   },
-
   "login": {
-    "title": "Sign in",
+    "title": "Sign In",
     "email": "Email",
     "password": "Password",
     "submit": "Login",
     "emailRequired": "Email is required",
     "emailInvalid": "Invalid email address",
     "passwordRequired": "Password is required",
-    "passwordMin": "Minimum 8 characters"
+    "passwordMin": "Minimum 8 characters",
+    "badCredentials": "Invalid credentials",
+    "error": "System error, please try again later"
   },
-
   "search": {
-    "title": "Ticket search",
+    "title": "Search Tickets",
     "status": "Status",
     "priority": "Priority",
     "sourceApp": "Application",
     "keyword": "Keyword",
     "placeholderKeyword": "Enter text...",
+    "all": "All",
     "noResults": "No tickets found"
   },
-
   "common": {
     "save": "Save",
     "cancel": "Cancel",
     "reset": "Reset"
   },
-
   "breadcrumb": {
     "tickets": "Tickets"
+  },
+  "dashboard": {
+    "opening": "Opened Tickets Trend",
+    "closing": "Closed Tickets Trend",
+    "loading": "Loading charts...",
+    "filter": "Show data for the last days",
+    "error": "Error loading dashboard data"
+  },
+  "label": {
+    "notif-empty": "No notifications",
+    "notif": "Notifications",
+    "nodata": "No data available"
+  },
+  "error": {
+    "loading": "Error during loading"
+  },
+  "suggestion": {
+    "title": "AI Suggestion",
+    "apply": "Apply",
+    "noSuggestion": "No suggestions available",
+    "actionable": "Recommended actions",
+    "confidence": "Estimated severity"
   }
 }

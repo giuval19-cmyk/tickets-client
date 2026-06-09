@@ -42,8 +42,6 @@ export class LoginComponent {
     this.auth.login(this.email, this.password)
       .subscribe({
         next: () => {
-          console.log('Token salvato:', this.auth.getToken());
-
           this.router.navigate(['/']);
         },
         error: err => {
