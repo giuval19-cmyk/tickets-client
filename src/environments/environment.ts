@@ -1,9 +1,8 @@
 export const environment = {
-  production: false,
-
+  production: true,
   api: {
-    iam: 'http://localhost:8080/iam-service/auth',
-    support: 'http://localhost:8080/support-service/api/v1',
-    dss: 'http://localhost:8080/dss-service/api/v1'
+    iam: '/iam-service/auth',
+    support: '/support-service/api/v1',
+    dss: '/dss-service/api/v1'
   }
 };
